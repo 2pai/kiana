@@ -1,0 +1,37 @@
+{
+  "name": "kiana",
+  "version": "1.0.0",
+  "description": "Kiana is API Gateway for a home automation device using MQTT & nodeJS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2pai/kiana.git"
+  },
+  "keywords": [
+    "mqtt"
+  ],
+  "author": "2pai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/2pai/kiana/issues"
+  },
+  "homepage": "https://github.com/2pai/kiana#readme",
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
