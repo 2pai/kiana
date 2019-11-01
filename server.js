@@ -1,8 +1,8 @@
-const App = require('./src/app')
+const app = require('./src/app')
 require('dotenv').config()
-const Server = new App()
+const server = app()
 
-Server.init(process.env.PORT, () => {
+server.init(process.env.PORT || 9000, () => {
 /* TODO :
     - init influxDB Connection
     - init MQTT Connection
