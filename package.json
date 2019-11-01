@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon server.js",
-    "lint:fix": "./node_modules/.bin/eslint src --fix"
+    "start": "nodemon server.js",
+    "prestart": "npm run lint",
+    "lint": "eslint . src --fix"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
+    "mqtt": "^3.0.0",
     "passport": "^0.4.0",
     "passport-http": "^0.3.0",
     "uuid": "^3.3.3",
