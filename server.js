@@ -1,6 +1,7 @@
-const app = require('./src/app')
+const App = require('./src/app')
 require('dotenv').config()
-const server = app()
+
+const server = new App()
 
 server.init(process.env.PORT || 9000, () => {
 /* TODO :
