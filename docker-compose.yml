@@ -1,0 +1,43 @@
+version: '3.7'
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis
+    hostname: redis
+    ports:
+      - 6379:6379
+  influxdb:
+    image: influxdb:1.7.8
+    container_name: influxdb
+    hostname: influxdb
+    ports:
+      - 8086:8086
+    volumes:
+      - influxdb:/var/lib/influxdb
+    restart:
+      always
+  kiana:
+    build: .
+    restart: always
+    ports:
+      - 3022:3022
+    links:
+      - influxdb
+    depends_on:
+      - redis
+      - influxdb
+      - mosquitto
+  mosquitto:
+    image: eclipse-mosquitto:1.6.7
+    hostname: mosquitto
+    container_name: mosquitto
+    expose:
+      - "1883"
+      - "9001"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    networks:
+      - default
+volumes:
+  influxdb:
