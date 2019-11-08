@@ -24,7 +24,10 @@ const subscribe = (topic) => {
 }
 
 client.on('message', (topic, message) => {
-  if (_.isEqual(topic, 'sensor-data')) /* insert data to db here */ logger.info('mqtt-message', message.toString())
+  if (_.isEqual(topic, 'sensor-data')) {
+    /* insert data to db here */
+    logger.info('mqtt-message', message.toString())
+  }
 })
 
 module.exports = {

@@ -10,7 +10,8 @@ class User {
 }
 
 passport.use(new BasicStrategy((username, password, cb) => {
-  if (_.isEqual(username, process.env.AUTH_BASIC_USERNAME) && _.isEqual(password, process.env.AUTH_BASIC_PASSWORD)) {
+  if (_.isEqual(username, process.env.AUTH_BASIC_USERNAME) &&
+   _.isEqual(password, process.env.AUTH_BASIC_PASSWORD)) {
     return cb(null, new User(username, password))
   } else {
     return cb(null, false)
