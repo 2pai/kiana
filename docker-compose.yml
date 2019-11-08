@@ -11,8 +11,12 @@ services:
     container_name: influxdb
     hostname: influxdb
     ports:
+<<<<<<< HEAD
     - "8083:8083"
     - "8086:8086"
+=======
+      - 8086:8086
+>>>>>>> f97d051587feac6fa3504ab42fec3b3679d64f20
     volumes:
       - influxdb:/var/lib/influxdb
     restart:
