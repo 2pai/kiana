@@ -1,3 +1,4 @@
+require('dotenv').config()
 const influx = require('influx')
 const logger = require('../helper/logger')
 const _ = require('lodash')
@@ -11,9 +12,8 @@ const init = () => {
   connection.getDatabaseNames()
     .then(names => {
       if (!names.includes(process.env.INFLUXDB_DATABASE)) {
-        return influx.createDatabase(process.env.INFLUXDB_DATABASE)
+        return connection.createDatabase(process.env.INFLUXDB_DATABASE)
       }
-      logger.info('influx-init', names)
     })
     .then(() => {
       logger.info('influx-init', 'Influxdb connection started')
@@ -28,7 +28,7 @@ const query = async (query) => {
     const data = await connection.query(query)
     return data
   } catch (error) {
-    logger.error('influx-query', error)
+    logger.error('influx-query', JSON.stringify(error))
   }
 }
 
@@ -45,7 +45,7 @@ const writePoints = async (measurment, tags, fields) => {
 
     return data
   } catch (error) {
-    logger.error('influx-query', error)
+    logger.error('influx-query', JSON.stringify(error))
   }
 }
 module.exports = {
