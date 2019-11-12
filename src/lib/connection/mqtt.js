@@ -1,3 +1,4 @@
+require('dotenv').config()
 const mqtt = require('mqtt')
 const logger = require('../helper/logger')
 const _ = require('lodash')
@@ -13,13 +14,13 @@ const init = () => {
 
 const publish = (topic, msg) => {
   client.publish(topic, msg.toString(), { qos: 2 }, (err) => {
-    if (err) logger.error('mqtt-publish', err)
+    if (err) logger.error('mqtt-publish', JSON.stringify(err))
   })
 }
 
 const subscribe = (topic) => {
   client.subscribe(topic, { qos: 2 }, (err) => {
-    if (err) logger.error('mqtt-subscribe', err)
+    if (err) logger.error('mqtt-subscribe', JSON.stringify(err))
   })
 }
 
