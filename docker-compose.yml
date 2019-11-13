@@ -6,16 +6,33 @@ services:
     hostname: redis
     ports:
       - 6379:6379
+    networks:
+      - kiana_net
+  mongo:
+    image: mongo:3.6.15
+    container_name: mongo
+    hostname: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo:/data/db
+    restart:
+      always
+    networks:
+      - kiana_net
   influxdb:
     image: influxdb:1.7.8
     container_name: influxdb
     hostname: influxdb
     ports:
-      - 8086:8086
+    - 8083:8083
+    - 8086:8086
     volumes:
       - influxdb:/var/lib/influxdb
     restart:
       always
+    networks:
+      - kiana_net
   kiana:
     build: .
     restart: always
@@ -27,17 +44,25 @@ services:
       - redis
       - influxdb
       - mosquitto
+      - mongo
+    environment:
+      WAIT_HOSTS: mosquitto:1883, influxdb:8086, redis:6379, mongodb:27017
+    networks:
+      - kiana_net    
   mosquitto:
     image: eclipse-mosquitto:1.6.7
     hostname: mosquitto
     container_name: mosquitto
     expose:
-      - "1883"
-      - "9001"
+      - 1883
+      - 9001
     ports:
-      - "1883:1883"
-      - "9001:9001"
+      - 1883:1883
+      - 9001:9001
     networks:
-      - default
+      - kiana_net
+networks:
+  kiana_net:
 volumes:
   influxdb:
+  mongo:
