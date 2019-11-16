@@ -46,7 +46,7 @@ services:
       - mosquitto
       - mongo
     environment:
-      WAIT_HOSTS: mosquitto:1883, influxdb:8086, redis:6379, mongodb:27017
+      WAIT_HOSTS: mosquitto:1883, influxdb:8086, redis:6379, mongo:27017
     networks:
       - kiana_net    
   mosquitto:
