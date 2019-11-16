@@ -3,6 +3,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const basicAuth = require('../lib/auth/basic')
 const logger = require('../lib/helper/logger')
+const apiHandler = require('../repository/apiHandler')
 class Server {
   constructor () {
     this.app = express()
@@ -15,6 +16,13 @@ class Server {
     this.app.get('/', basicAuth.isAuth, (req, res) => {
       res.send('This service is running properly ')
     })
+    this.app.get(
+      '/api/getListDevice',
+      basicAuth.isAuth,
+      apiHandler.getListDevice) // get list device
+    this.app.post('/api/addDevice',
+      basicAuth.isAuth,
+      apiHandler.addDevice) // add device
   }
 
   init (port, next) {
