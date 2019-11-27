@@ -4,6 +4,7 @@ const logger = require('../helper/logger')
 const _ = require('lodash')
 const client = mqtt.connect(process.env.MQTT_URL)
 const { getListDevice } = require('../../repository/queries/queriesModel')
+const { writePoints } = require('../db/influxdb')
 const init = () => {
   client.on('connect', () => {
     subscribe('sensor-data')
@@ -40,9 +41,12 @@ const unsubscribe = async (topic) => {
   })
 }
 
-client.on('message', (topic, message) => {
+client.on('message', async (topic, message) => {
   if (_.isEqual(topic, 'sensor-data')) {
-    /* insert data to db here */
+    const msg = JSON.parse(message.toString())
+    writePoints(process.env.INFLUXDB_MEASUREMENTS, {
+      deviceName: msg.device
+    }, { data: msg.data })
     logger.info('mqtt-message', message.toString())
   }
 })
