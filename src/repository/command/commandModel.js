@@ -6,8 +6,13 @@ const DeviceSchema = new Schema({
   topicDevice: String,
   dateAdded: { type: Date, default: Date.now }
 })
-const addDevice = model('command-device', DeviceSchema, 'device')
+
+const addDevice = model('command-addDevice', DeviceSchema, 'device')
+const updateDevice = model('command-updateDevice', DeviceSchema, 'device')
+const deleteDevice = model('command-deleteDevice', DeviceSchema, 'device')
 
 module.exports = {
-  addDevice
+  addDevice,
+  updateDevice,
+  deleteDevice
 }
