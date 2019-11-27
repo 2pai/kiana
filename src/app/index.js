@@ -20,9 +20,15 @@ class Server {
       '/api/getListDevice',
       basicAuth.isAuth,
       apiHandler.getListDevice) // get list device
-    this.app.post('/api/addDevice',
+    this.app.post('/api/device',
       basicAuth.isAuth,
       apiHandler.addDevice) // add device
+    this.app.put('/api/device/:deviceId',
+      basicAuth.isAuth,
+      apiHandler.editDevice) // edit update
+    this.app.delete('/api/device/:deviceId',
+      basicAuth.isAuth,
+      apiHandler.deleteDevice) // add delete
   }
 
   init (port, next) {
