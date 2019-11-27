@@ -61,8 +61,23 @@ services:
       - 9001:9001
     networks:
       - kiana_net
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    hostname: grafana
+    ports:
+      - "3010:3000"
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,briangann-gauge-panel,natel-plotly-panel,grafana-simple-json-datasource
+    links:
+      - influxdb
+    volumes:
+      - grafana:/var/lib/grafana
+    networks:
+      - kiana_net
 networks:
   kiana_net:
 volumes:
   influxdb:
   mongo:
+  grafana:
