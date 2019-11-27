@@ -5,7 +5,18 @@ const _ = require('lodash')
 
 const connection = new influx.InfluxDB({
   host: process.env.INFLUXDB_HOST,
-  port: 8086
+  database: process.env.INFLUXDB_DATABASE,
+  port: 8086,
+  schema: [{
+    measurement: process.env.INFLUXDB_MEASUREMENTS,
+    fields: {
+      data: influx.FieldType.INTEGER
+    },
+    tags: [
+      'deviceName'
+    ]
+  }
+  ]
 })
 
 const init = () => {
@@ -32,20 +43,28 @@ const query = async (query) => {
   }
 }
 
-const writePoints = async (measurment, tags, fields) => {
-  if (_.some([measurment, tags, fields], el => _.isEmpty(el))) {
+const writePoints = async (measurement, tags, fields) => {
+  if (_.some([measurement, tags, fields], el => _.isEmpty(el))) {
     logger.error('influx-writePoinnts', 'Payload Is Empty')
   }
+  logger.info('influxdb-writePoints', JSON.stringify({
+    measurement,
+    tags,
+    fields
+  }))
+
   try {
-    const data = await connection.writePoints([{
-      measurment: measurment,
+    const data = connection.writePoints([{
+      measurement: measurement,
       tags: tags,
       fields: fields
     }])
+    logger.info('influx-writePoints', JSON.stringify(data))
 
     return data
   } catch (error) {
-    logger.error('influx-query', JSON.stringify(error))
+    logger.error('influx-writePoinnts', JSON.stringify(error))
+    return error
   }
 }
 module.exports = {
