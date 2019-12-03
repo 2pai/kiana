@@ -20,15 +20,26 @@ class Server {
       '/api/getListDevice',
       basicAuth.isAuth,
       apiHandler.getListDevice) // get list device
+    this.app.get(
+      '/api/device/:deviceId',
+      basicAuth.isAuth,
+      apiHandler.getDetailDevice) // get detail device
+    this.app.get(
+      '/api/device/:deviceId/data',
+      basicAuth.isAuth,
+      apiHandler.getDataDevice) // get detail device
     this.app.post('/api/device',
       basicAuth.isAuth,
       apiHandler.addDevice) // add device
     this.app.put('/api/device/:deviceId',
       basicAuth.isAuth,
-      apiHandler.editDevice) // edit update
+      apiHandler.editDevice) // edit/update device
     this.app.delete('/api/device/:deviceId',
       basicAuth.isAuth,
-      apiHandler.deleteDevice) // add delete
+      apiHandler.deleteDevice) // delete device
+    this.app.post('/api/device/:deviceId',
+      basicAuth.isAuth,
+      apiHandler.triggerDevice) // trigger device
   }
 
   init (port, next) {
