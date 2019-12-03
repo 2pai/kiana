@@ -21,16 +21,29 @@ axios({
     deviceName: DeviceName
   }
 }).then((response) => {
-  data.deviceId = response.data.data.deviceName
+  data.deviceId = response.data.data.deviceId
   data.topicDevice = response.data.data.topicDevice
   data.deviceName = response.data.data.deviceName
   console.log(data)
+  client.subscribe(data.topicDevice, (err) => {
+    console.log(err)
+  })
+  client.subscribe(data.topicDevice, { qos: 2 }, (err) => {
+    if (err) console.log('mqtt-subscribe' + JSON.stringify(err))
+    else {
+      console.log('mqtt-subscribe' + 'success subscribe to ' +
+    data.topicDevice)
+    }
+  })
 })
-console.log(`Send fake data to ${data.topicDevice}`)
-
+console.log(`Send fake data to server (${data.deviceId})`)
 client.on('message', (topic, msg) => {
-  if (topic === data.topic) {
-    console.log('Sensor active')
+  if (topic === data.topicDevice) {
+    if (msg.toString() === '1') {
+      console.log('module on')
+    } else {
+      console.log('module off')
+    }
   }
 })
 
