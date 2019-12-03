@@ -1,7 +1,7 @@
 const model = require('./commandModel')
 const uuid = require('uuid/v4')
 const logger = require('../../lib/helper/logger')
-const { subscribe } = require('../../lib/connection/mqtt')
+const { subscribe, publish } = require('../../lib/connection/mqtt')
 
 const addDevice = async (payload) => {
   try {
@@ -58,8 +58,21 @@ const deleteDevice = async (payload) => {
   }
 }
 
+const triggerDevice = async (payload) => {
+  logger.info('command-triggerDevice', JSON.stringify(payload))
+
+  try {
+    await publish(payload.topic, JSON.stringify(payload.msg))
+    logger.info('command-triggerDevice', JSON.stringify(payload))
+    return `Send data to ${payload.topic}`
+  } catch (error) {
+    logger.error('command-triggerDevice', JSON.stringify(error))
+    return error
+  }
+}
 module.exports = {
   addDevice,
   editDevice,
-  deleteDevice
+  deleteDevice,
+  triggerDevice
 }

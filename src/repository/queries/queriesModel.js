@@ -8,7 +8,9 @@ const DeviceSchema = new Schema({
 })
 
 const getListDevice = model('queries-device', DeviceSchema, 'device')
+const getTopic = model('queries-getTopicdevice', DeviceSchema, 'device')
 
 module.exports = {
-  getListDevice
+  getListDevice,
+  getTopic
 }
