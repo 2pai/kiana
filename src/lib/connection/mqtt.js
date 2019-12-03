@@ -23,21 +23,21 @@ const init = () => {
 const publish = async (topic, msg) => {
   client.publish(topic, msg.toString(), { qos: 2 }, (err) => {
     if (err) logger.error('mqtt-publish', JSON.stringify(err))
-    logger.info('mqtt-publish', 'message published to ' + topic)
+    else logger.info('mqtt-publish', 'message published to ' + topic)
   })
 }
 
 const subscribe = async (topic) => {
   client.subscribe(topic, { qos: 2 }, (err) => {
     if (err) logger.error('mqtt-subscribe', JSON.stringify(err))
-    logger.info('mqtt-subscribe', 'success subscribe to ' + topic)
+    else logger.info('mqtt-subscribe', 'success subscribe to ' + topic)
   })
 }
 
 const unsubscribe = async (topic) => {
   client.unsubscribe(topic, { qos: 2 }, (err) => {
     if (err) logger.error('mqtt-unsubscribe', JSON.stringify(err))
-    logger.info('mqtt-unsubscribe', 'success unsubscribe to ' + topic)
+    else logger.info('mqtt-unsubscribe', 'success unsubscribe to ' + topic)
   })
 }
 
