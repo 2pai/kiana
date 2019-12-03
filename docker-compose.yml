@@ -46,7 +46,7 @@ services:
       - mosquitto
       - mongo
     environment:
-      WAIT_HOSTS: mosquitto:1883, influxdb:8086, redis:6379, mongodb:27017
+      WAIT_HOSTS: mosquitto:1883, influxdb:8086, redis:6379, mongo:27017
     networks:
       - kiana_net    
   mosquitto:
@@ -61,8 +61,23 @@ services:
       - 9001:9001
     networks:
       - kiana_net
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    hostname: grafana
+    ports:
+      - "3010:3000"
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,briangann-gauge-panel,natel-plotly-panel,grafana-simple-json-datasource
+    links:
+      - influxdb
+    volumes:
+      - grafana:/var/lib/grafana
+    networks:
+      - kiana_net
 networks:
   kiana_net:
 volumes:
   influxdb:
   mongo:
+  grafana:
